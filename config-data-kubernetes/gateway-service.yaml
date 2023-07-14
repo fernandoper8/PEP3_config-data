@@ -1,0 +1,25 @@
+server:
+  port: 8080
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka-service.default.svc.cluster.local:8761/eureka/
+  instance:
+    hostname: localhost
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: codigo-service
+          uri: lb://codigo-service
+          predicates:
+            - Path=/codigo/**
+        - id: prueba-service
+          uri: lb://prueba-service
+          predicates:
+            - Path=/prueba/**
